@@ -1,0 +1,115 @@
+Last login: Tue Jul 18 22:16:18 on ttys000
+mithilshah1408@Mithils-MacBook-Pro htdocs % /Applications/XAMPP/xamppfiles/bin/mysql -u root
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock' (2)
+mithilshah1408@Mithils-MacBook-Pro htdocs % /Applications/XAMPP/xamppfiles/bin/mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.28-MariaDB Source distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++---------------------------+
+| Database                  |
++---------------------------+
+| CARSHOWROOM               |
+| L                         |
+| LIBRARY_MANAGEMENT_SYSTEM |
+| dummy                     |
+| emp                       |
+| information_schema        |
+| mysql                     |
+| performance_schema        |
+| phpmyadmin                |
+| test                      |
+| w5to9                     |
++---------------------------+
+11 rows in set (0.010 sec)
+
+MariaDB [(none)]> use LIBRARY_MANAGEMENT_SYSTEM;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [LIBRARY_MANAGEMENT_SYSTEM]> show tables;
++-------------------------------------+
+| Tables_in_LIBRARY_MANAGEMENT_SYSTEM |
++-------------------------------------+
+| AUTHORS                             |
+| BOOKS                               |
+| MEMBERS                             |
++-------------------------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [LIBRARY_MANAGEMENT_SYSTEM]> select * from MEMBERS;
++----------+--------+------------------+-------------+
+| MemberID | BookID | Name             | ContactInfo |
++----------+--------+------------------+-------------+
+|       21 |    101 | RAJESH KAPADIA   |   797711466 |
+|       56 |    104 | ANIMESH BALAJI   |   932040550 |
+|       43 |    102 | KRISH PATEL      |   808070550 |
+|       50 |    103 | MITHIL SHAH      |   969991665 |
+|       99 |    105 | VINUTHA NALAGATI |    77779998 |
+|       68 |    106 | POOJA SHARMA     |    92345624 |
++----------+--------+------------------+-------------+
+6 rows in set (0.048 sec)
+
+MariaDB [LIBRARY_MANAGEMENT_SYSTEM]> select * from BOOKS;
++--------+----------+-----------------+------------------+
+| BookID | AuthorID | NAME            | PUBLICATION_YEAR |
++--------+----------+-----------------+------------------+
+|    101 |        1 | MATILDA         | 1970-10-18       |
+|    102 |        3 | TWO STATES      | 2000-10-23       |
+|    103 |        2 | The Mockingbird | 2004-12-31       |
+|    104 |        3 | FAULTY STARS    | 2005-12-31       |
+|    105 |        4 | Habits          | 2012-12-12       |
+|    106 |        5 | The Lost Symbol | 2016-12-07       |
++--------+----------+-----------------+------------------+
+6 rows in set (0.004 sec)
+
+MariaDB [LIBRARY_MANAGEMENT_SYSTEM]> select * from AUTHORS;
++----------+-------------------+------------+
+| AuthorID | AuthorName        | DOB        |
++----------+-------------------+------------+
+|        1 | Roalh Dalh        | 1969-08-14 |
+|        2 | Sudha Murty       | 1950-06-13 |
+|        3 | Chetan Bhagat     | 1995-04-02 |
+|        4 | Alexander Smith   | 1790-01-19 |
+|        5 | Dan Brown         | 1959-03-12 |
+|        6 | Subash Chakraveer | 1997-12-11 |
++----------+-------------------+------------+
+6 rows in set (0.002 sec)
+
+MariaDB [LIBRARY_MANAGEMENT_SYSTEM]> select * from MEMBERS where BookID = (select BookID from BOOKS where AuthorID in (1,6));
++----------+--------+----------------+-------------+
+| MemberID | BookID | Name           | ContactInfo |
++----------+--------+----------------+-------------+
+|       21 |    101 | RAJESH KAPADIA |   797711466 |
++----------+--------+----------------+-------------+
+1 row in set (0.052 sec)
+
+MariaDB [LIBRARY_MANAGEMENT_SYSTEM]> select * from MEMBERS where BookID = (select BookID from BOOKS where AuthorID = 1);
++----------+--------+----------------+-------------+
+| MemberID | BookID | Name           | ContactInfo |
++----------+--------+----------------+-------------+
+|       21 |    101 | RAJESH KAPADIA |   797711466 |
++----------+--------+----------------+-------------+
+1 row in set (0.004 sec)
+
+
+MariaDB [LIBRARY_MANAGEMENT_SYSTEM]> select * from MEMBERS where BookID in (select BookID from BOOKS where AuthorID BETWEEN 1 and 6);
++----------+--------+------------------+-------------+
+| MemberID | BookID | Name             | ContactInfo |
++----------+--------+------------------+-------------+
+|       21 |    101 | RAJESH KAPADIA   |   797711466 |
+|       56 |    104 | ANIMESH BALAJI   |   932040550 |
+|       43 |    102 | KRISH PATEL      |   808070550 |
+|       50 |    103 | MITHIL SHAH      |   969991665 |
+|       99 |    105 | VINUTHA NALAGATI |    77779998 |
+|       68 |    106 | POOJA SHARMA     |    92345624 |
++----------+--------+------------------+-------------+
+6 rows in set (0.011 sec)
+
+
